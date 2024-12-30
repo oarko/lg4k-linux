@@ -11,7 +11,7 @@
  */
  
 #include <linux/kernel.h>
-#include "linux/pci.h"
+#include <linux/pci.h>
 #include "linux/interrupt.h"
 #include "cxt_mgr.h"
 #include "mem_model.h"
@@ -166,11 +166,11 @@ static int pci_model_probe(struct pci_dev *pci_dev,const struct pci_device_id *p
         {
             mesg_debug("PCI Express\n");
             
-            if(!pci_set_dma_mask(pci_dev, DMA_BIT_MASK(64)))
+            if(!dma_set_mask(&pci_dev->dev, DMA_BIT_MASK(64)))
             {
                 mesg_info("set 64bit DMA mask\n");
             }else 
-                if(!pci_set_dma_mask(pci_dev, DMA_BIT_MASK(32)))
+                if(!dma_set_mask(&pci_dev->dev, DMA_BIT_MASK(32)))
             {
                 mesg_info("set 32bit DMA mask\n");
             }else
@@ -182,7 +182,7 @@ static int pci_model_probe(struct pci_dev *pci_dev,const struct pci_device_id *p
             }
         }else
         {
-            if(!pci_set_dma_mask(pci_dev, DMA_BIT_MASK(32)))
+            if(!dma_set_mask(&pci_dev->dev, DMA_BIT_MASK(32)))
             {
                 mesg_info("set 32bit DMA mask\n");
                 
